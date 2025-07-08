@@ -17,100 +17,107 @@
 
 enum
 {
-	LEVEL_0 = 0,
-	LEVEL_1,
-	LEVEL_2,
-	LEVEL_3,
-	LEVEL_4,
-	LEVEL_5,
-	LEVEL_6,
-	LEVEL_7,
-	LEVEL_8,
-	LEVEL_9
+    LEVEL_0 = 0,
+    LEVEL_1,
+    LEVEL_2,
+    LEVEL_3,
+    LEVEL_4,
+    LEVEL_5,
+    LEVEL_6,
+    LEVEL_7,
+    LEVEL_8,
+    LEVEL_9
 };
 
 // プロトタイプ宣言
-int normalizeValue(float raw);
+int normalizeValue(int raw);
 
 int main()
 {
-	float tempSensor;	// 温度センサ 生値
-	float lightSensor;	// 照度センサ 生値
-	int tempLevel;		// 温度センサ レベル
-	int lightLevel;		// 照度センサ レベル
+    int tempSensor;     // 温度センサ 生値
+    int lightSensor;    // 照度センサ 生値
+    int tempLevel;      // 温度センサ レベル
+    int lightLevel;     // 照度センサ レベル
 
-	printf("温度センサ値を入力してください: ");
-	// 正しい値が入力されるまでループする
-	while(1)
-	{
-		scanf("%f", &tempSensor);
-		if((MIN_VALUE <= tempSensor) && (tempSensor <= MAX_VALUE))
-		{
-			break;
-		}
-		else
-		{
-			printf("温度センサ値は、0～1023の間で入力してください: ");
-		}
-	}
+    printf("温度センサ値を入力してください: ");
+    // 正しい値が入力されるまでループする
+    while(1)
+    {
+        scanf("%d", &tempSensor);
+        if((MIN_VALUE <= tempSensor) && (tempSensor <= MAX_VALUE))
+        {
+            break;
+        }
+        else
+        {
+            printf("温度センサ値は、0～1023の間で入力してください: ");
+        }
+    }
 
-	printf("照度センサ値を入力してください: ");
-	// 正しい値が入力されるまでループする
-	while(1)
-	{
-		scanf("%f", &lightSensor);
-		if((MIN_VALUE <= lightSensor) && (lightSensor <= MAX_VALUE))
-		{
-			break;
-		}
-		else
-		{
-			printf("照度センサ値は、0～1023の間で入力してください: ");
-		}
-	}
+    printf("照度センサ値を入力してください: ");
+    // 正しい値が入力されるまでループする
+    while(1)
+    {
+        scanf("%d", &lightSensor);
+        if((MIN_VALUE <= lightSensor) && (lightSensor <= MAX_VALUE))
+        {
+            break;
+        }
+        else
+        {
+            printf("照度センサ値は、0～1023の間で入力してください: ");
+        }
+    }
 
-	// 温度センサ正規化
-	tempLevel = normalizeValue(tempSensor);
+    // 温度センサ正規化
+    tempLevel = normalizeValue(tempSensor);
 
-	// レベル条件判定&出力
-	if(LEVEL_0 <= tempLevel && tempLevel <= LEVEL_3)
-	{
-		printf("%s %s%d: %s\n", STR_TEMP, STR_LEVEL, tempLevel, STR_TEMP_LOW);
-	}
-	else if(LEVEL_4 <= tempLevel && tempLevel <= LEVEL_6)
-	{
-		printf("%s %s%d: %s\n", STR_TEMP, STR_LEVEL, tempLevel, STR_TEMP_PROP);
-	}
-	else if(LEVEL_7 <= tempLevel && tempLevel <= LEVEL_9)
-	{
-		printf("%s %s%d: %s\n", STR_TEMP, STR_LEVEL, tempLevel, STR_TEMP_HIGH);
-	}
+    // レベル条件判定&出力
+    if(tempLevel <= LEVEL_3)
+    {
+        printf("%s %s%d: %s\n", STR_TEMP, STR_LEVEL, tempLevel, STR_TEMP_LOW);
+    }
+    else if(tempLevel <= LEVEL_6)
+    {
+        printf("%s %s%d: %s\n", STR_TEMP, STR_LEVEL, tempLevel, STR_TEMP_PROP);
+    }
+    else if(tempLevel <= LEVEL_9)
+    {
+        printf("%s %s%d: %s\n", STR_TEMP, STR_LEVEL, tempLevel, STR_TEMP_HIGH);
+    }
+    else
+    {
+        printf("温度センサ値が不正です。\n");
+    }
 
-	// 照度センサ正規化
-	lightLevel = normalizeValue(lightSensor);
-	
-	// レベル条件判定&出力
-	if(LEVEL_0 <= lightLevel && lightLevel <= LEVEL_2)
-	{
-		printf("%s %s%d: %s\n", STR_LIGHT, STR_LEVEL, lightLevel, STR_LIGHT_LOW);
-	}
-	else if(LEVEL_3 <= lightLevel && lightLevel <= LEVEL_6)
-	{
-		printf("%s %s%d: %s\n", STR_LIGHT, STR_LEVEL, lightLevel, STR_LIGHT_PROP);
-	}
-	else if(LEVEL_7 <= lightLevel && lightLevel <= LEVEL_9)
-	{
-		printf("%s %s%d: %s\n", STR_LIGHT, STR_LEVEL, lightLevel, STR_LIGHT_HIGH);
-	}
-	return 0;
+    // 照度センサ正規化
+    lightLevel = normalizeValue(lightSensor);
+    
+    // レベル条件判定&出力
+    if(lightLevel <= LEVEL_2)
+    {
+        printf("%s %s%d: %s\n", STR_LIGHT, STR_LEVEL, lightLevel, STR_LIGHT_LOW);
+    }
+    else if(lightLevel <= LEVEL_6)
+    {
+        printf("%s %s%d: %s\n", STR_LIGHT, STR_LEVEL, lightLevel, STR_LIGHT_PROP);
+    }
+    else if(lightLevel <= LEVEL_9)
+    {
+        printf("%s %s%d: %s\n", STR_LIGHT, STR_LEVEL, lightLevel, STR_LIGHT_HIGH);
+    }
+    else
+    {
+        printf("照度センサ値が不正です。\n");
+    }
+    return 0;
 }
 
 /* 正規化関数                  */
 /* input ： 生値               */
 /* output： レベル             */
-int normalizeValue(float raw)
+int normalizeValue(int raw)
 {
-	int level = 0;
-	level = raw / NORMALIZE_VALUE;
-	return level;
+    int level = ((float)raw) / NORMALIZE_VALUE;
+    return level;
 }
